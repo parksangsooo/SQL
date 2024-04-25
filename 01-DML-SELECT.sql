@@ -250,3 +250,128 @@ ORDER BY salary DESC;
 SELECT department_id, salary, first_name
 FROM employees
 ORDER BY department_id asc, salary desc;
+
+-- 정렬 기준을 어떻게 세우느냐에 따라 성능, 출력 결과에 영향을 미칠 수 있다.
+
+
+
+---------------
+-- 단일행 함수
+---------------
+
+-- 단일 레코드를 기준으로 특정 컬럼에 값에 적용되는 함수
+
+-- 문자열 단일행 함수
+SELECT first_name, last_name,
+    CONCAT(first_name, CONCAT(' ', last_name)),     -- 문자열 연결 함수
+    first_name || ' ' || last_name,     -- 문자열 연결 연산자
+    INITCAP(first_name || ' ' || last_name)     -- 각 단어의 첫 글자를 대문자
+From employees;
+
+SELECT first_name, last_name,
+    LOWER(first_name),      --  모두 소문자
+    UPPER(first_name),       -- 모두 대문자
+    LPAD(first_name, 20, '*'),      -- 왼쪽 빈자리 채움
+    RPAD(first_name, 20, '*')       --  오른쪽 빈자리 채움
+FROM employees;
+
+
+SELECT '    Oracle     ',
+    '*****Database*****',
+    LTRIM('    Oracle     '),       -- 왼쪽의 빈 공간 삭제
+    RTRIM('    Oracle     '),        -- 오른쪽의 빈 공간 삭제
+    TRIM('*' FROM '*****Database*****'), -- 앞 뒤의 잡음 문자 삭제
+    SUBSTR('Oracle Database', 8, 4),     -- 부분 문자열
+    SUBSTR('Oracle Database', -8, 4),        -- 역 인덱스 이용 부분 문자열
+    LENGTH('Oracle Database')       -- 문자열의 길이
+FROM dual;
+
+-- 수치형 단일행 함수
+SELECT 3.14159,
+    ABS(-3.14),     -- 절대값 함수
+    CEIL(3.14),     -- 올림 함수
+    Floor(3.14),     -- 버림 함수
+    ROUND(3.5),     -- 반올림
+    ROUND(3.14159, 3),   -- 셋 째자리 뒤에서 숫자 반올림
+    TRUNC(3.5),     -- 버림함수
+    TRUNC(3.14159, 3),   -- 소숫점 셋 째자리 뒤에서 버림
+    SIGN(-3.14159),      -- 부호함수 (-1: 음수, 0 : 0 , 1: 양수)
+    MOD(7, 3),           --  나머지 함수(7을 3으로 나눈 나머지)
+    POWER(2, 4)         -- 제곱함수 2의 4제곱
+FROM dual;
+
+---------------------
+-- DATA FORMAT
+---------------------
+
+-- 현재 세션 정보 확인
+SELECT *
+FROM nls_session_parameters;
+
+-- 현재 날짜 포맷이 어떻게 되는가
+-- 딕셔너리를 확인
+SELECT value FROM nls_session_parameters
+WHERE parameter = 'NLS_DATE_FORMAT';
+
+-- 현재 날짜 : SYSDATE
+SELECT sysdate FROM dual;       -- 가상 테이블 dual로부터 받아오므로 1개의 레코드
+
+SELECT sysdate FROM employees;  -- employees 테이블로부터 받아오므로 employees 테이블 레코드의 갯수만큼
+
+-- 날짜 관련 단일행 함수
+SELECT
+    sysdate,
+    ADD_MONTHS(sysdate, 2), -- 2개월이 지난 후의 날자
+    LAST_DAY(sysdate),       -- 현재 달의 마지막 날
+    MONTHS_BETWEEN('12/09/24', sysdate),    -- 해당 날짜와 오늘 날짜까지 두달 사이에 몇 달이 지났는가
+    NEXT_DAY(sysdate, '화요일'),           -- 1: 일 ~ 7: 토
+    ROUND(sysdate, 'MONTH'),             -- MONTH를 기준으로 반올림
+    TRUNC(sysdate, 'MONTH')              -- MONTH를 기준으로 버림
+FROM dual;
+
+-- employees 테이블 중에서 hire_date 컬럼을 가지고 해보자
+-- 근속 월수 뽑아보기
+SELECT first_name, hire_date,
+    ROUND(MONTHS_BETWEEN(sysdate, hire_date), 0) as 근속월수 
+FROM employees
+ORDER BY 근속월수 desc;
+
+
+-----------------
+-- 변환 함수
+-----------------
+
+-- TO_NUMBER(s, fmt) : 문자열 -> 숫자
+-- TO_DATE(s, fmt) : 문자열 -> 날짜
+-- TO_CHAR(o, fmt) : 숫자, 날짜 -> 문자열
+
+-- TO_CHAR
+SELECT first_name, 
+    TO_CHAR(hire_date, 'YYYY-MM-DD')        --  년- 월- 일
+FROM employees;
+
+-- 현재 시간을 년-월-일 시:분:초로 표기
+SELECT sysdate,
+TO_CHAR(sysdate, 'YYYY-MM-DD HH24:MI:SS')
+FROM dual;
+
+SELECT
+TO_CHAR(3000000, 'L999,999,999.99')
+FROM dual;
+
+--모든 직원의 이름과 연봉 정보 표시
+Select 
+    first_name, salary, commission_pct,
+    TO_CHAR((salary + salary * nvl(commission_pct, 0)) * 12, '$999,999.99') as 연봉
+FROM employees;
+
+
+-- 문자 -> 숫자 : TO_NUMBER
+SELECT '$57,600',
+    TO_NUMBER('$57,600', '$999,999.99') / 12 as 월급
+FROM dual;
+
+-- 문자열 -> 날짜 : TO_DATE
+SELECT '2012-09-24 13:48:00',
+TO_Date('2012-09-24 13:48:00', 'YYYY-MM-DD HH24:MI:SS')
+FROM dual;
