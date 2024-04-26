@@ -95,4 +95,3 @@ SELECT first_name || ' ' || last_name AS "이름",
 FROM employees
 WHERE hire_date < TO_DATE('2013-12-31', 'YYYY-MM-DD');
 
-
