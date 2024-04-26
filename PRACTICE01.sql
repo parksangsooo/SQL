@@ -22,7 +22,7 @@ ORDER BY 최고월급 desc;
 -- 담당 매니저가 배정되어있으나 커미션비율이 없고, 월급이 3000초과인 직원의 이름, 매니저아이디, 커미션 비율, 월급 을 출력하세요.
 SELECT FIRST_NAME, MANAGER_ID, COMMISSION_PCT, SALARY
 FROM EMPLOYEES
-WHERE SALARY > 3000 and COMMISSION_PCT is null;
+WHERE SALARY > 3000 and COMMISSION_PCT is null and MANAGER_ID is not null ;
 
 
 
@@ -66,7 +66,7 @@ WHERE DEPARTMENT_ID IN (10, 90, 100);
 SELECT FIRST_NAME AS 이름,
        SALARY AS 월급
 FROM EMPLOYEES
-WHERE LOWER(FIRST_NAME) LIKE '%s%';
+WHERE LOWER(FIRST_NAME) LIKE '%s%' OR UPPER(FIRST_NAME) LIKE '%S%';
 
 
 -- 문제8.
