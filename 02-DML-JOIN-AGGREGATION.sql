@@ -159,3 +159,65 @@ select emp.EMPLOYEE_ID,
 -- where emp.MANAGER_ID = man.EMPLOYEE_ID(+);
 from EMPLOYEES emp left outer join EMPLOYEES man
 on emp.MANAGER_ID = man.EMPLOYEE_ID;
+
+--------------------
+--Group Aggregation
+--------------------
+
+-- 집계 : 여러 행으로부터 데이터를 수집, 하나의 행으로 반환
+-- count : 갯수 세기 함수
+-- employees 테이블의 총 레코드 갯수
+
+select count(*) from EMPLOYEES;  -- 107
+-- * 로 카운트 하면 모든 행의 수를 반환
+-- 특정 컬럼내에 null 값이 포함이 되어 있는지에 대한 여부는 중요하지 않음ㄴ
+
+-- commission 을 받는 직원의 수를 알고 싶을 경우
+select count(COMMISSION_PCT) from EMPLOYEES;    -- 35
+-- commission_pct 가 null인 경우를 제외하고 싶을 경우
+select count(*) from EMPLOYEES
+where COMMISSION_PCT is not null;
+
+-- sum : 합계 함수
+-- 모든 사원의 급여의 합
+select sum(SALARY) from EMPLOYEES;
+
+-- AVG : 평균 함수
+-- 사원들의 평균 급여
+select avg(SALARY) from EMPLOYEES;
+
+-- 사원들이 받는 커미션 비율의 평균
+select avg(COMMISSION_PCT) from EMPLOYEES;      -- 22%
+
+-- avg 함수는 null 값이 포함되어 있을 경우 그 값을 집계 수치에서 제외한다.
+-- null 값을 집계 결과에 포함시킬지의 여부는 정책으로 결정하고 수행해야 한다.
+select avg(nvl(COMMISSION_PCT, 0)) from EMPLOYEES;      -- 7%
+
+-- min / max 함수 : 최소값 & 최대값
+--avg / median : 산술평균 / 중앙값(중요한 통계수치)
+select
+    min(SALARY) 최소급여,
+    max(SALARY) 최대급여,
+    avg(SALARY) 평균급여,
+    median(SALARY) 급여중앙값
+from EMPLOYEES;
+
+-- 흔히 범하는 오류..
+-- 부서별로 평균 급여를 구하고자 할 때,
+/*
+select DEPARTMENT_ID, avg(SALARY)   -- 오류 : 단일 그룹이 아님
+from EMPLOYEES;
+*/
+
+select DEPARTMENT_ID from EMPLOYEES;    -- 여러 개의 레코드
+select avg(SALARY) from EMPLOYEES;      -- 단일 레코드
+
+select DEPARTMENT_ID, SALARY
+from EMPLOYEES
+order by DEPARTMENT_ID;
+
+-- GROUP BY
+select DEPARTMENT_ID, ROUND(avg(SALARY), 2)
+from EMPLOYEES
+group by DEPARTMENT_ID      -- 집계를 위해 특정 컬럼을 기준으로 그룹핑 한다.
+order by DEPARTMENT_ID;
