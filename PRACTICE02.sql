@@ -87,6 +87,12 @@ SELECT
 FROM JOBS
 ORDER BY 임금차이 DESC; -- 임금 차이 기준으로 내림차순 정렬
 
+select JOB_ID,
+       max(SALARY) - min(SALARY) diff
+from EMPLOYEES
+group by JOB_ID
+order by diff desc;
+
 
 
 
