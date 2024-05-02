@@ -1,9 +1,10 @@
 -- 서브쿼리(SUBQUERY)
 -- 문제1.
--- 평균 급여보다 적은 급여를 받는 직원 수를 계산
-select count(*) -- 결과로 직원 수를 반환
+-- 평균 급여보다 적게 받는 직원의 수를 세는 쿼리입니다.
+select count(*) -- 이 구문은 EMPLOYEES 테이블에서 조건을 만족하는 레코드 수를 세어 결과를 반환합니다.
 from EMPLOYEES
-where SALARY < (select avg(SALARY) from EMPLOYEES); -- 서브쿼리를 사용하여 전체 직원의 평균 급여보다 적은 급여를 받는 직원을 필터링
+-- 서브쿼리를 사용하여 EMPLOYEES 테이블의 모든 레코드에서 평균 급여를 계산하고, 이를 메인 쿼리의 조건으로 사용합니다.
+where SALARY < (select avg(SALARY) from EMPLOYEES);
 
 
 
@@ -76,13 +77,16 @@ order by SALARY desc; -- 급여 기준 내림차순 정렬
 -- 조건절비교, 테이블조인 2가지 방법으로 작성하세요
 -- (11건)
 -- 조건절 비교를 이용한 부서별 최고 급여 직원 정보 조회
-select emp.EMPLOYEE_ID,
-       emp.FIRST_NAME,
-       emp.SALARY,
-       emp.DEPARTMENT_ID
+select emp.EMPLOYEE_ID,  -- 직원의 ID
+       emp.FIRST_NAME,   -- 직원의 이름
+       emp.SALARY,       -- 직원의 급여
+       emp.DEPARTMENT_ID -- 직원의 부서 ID
 from EMPLOYEES emp
-where (emp.DEPARTMENT_ID, emp.SALARY) in (select DEPARTMENT_ID, max(SALARY) from EMPLOYEES group by DEPARTMENT_ID) -- 부서별 최고 급여를 그룹화하고 해당 최고 급여를 받는 직원을 조회
-order by SALARY desc; -- 급여 기준 내림차순 정렬
+-- 서브쿼리를 사용하여 각 부서별로 최고 급여를 계산하고, 해당 급여를 받는 직원만을 필터링합니다.
+where (emp.DEPARTMENT_ID, emp.SALARY) in (select DEPARTMENT_ID, max(SALARY) from EMPLOYEES group by DEPARTMENT_ID)
+-- 결과를 급여 기준으로 내림차순 정렬합니다.
+order by SALARY desc;
+
 
 -- 테이블 조인을 이용한 부서별 최고 급여 직원 정보 조회
 select e.EMPLOYEE_ID,
