@@ -97,8 +97,14 @@ where RANK between 11 and 20; -- 순위가 11에서 20 사이인 직원만 선�
 
 
 -- 문제6.
--- 가장 늦게 입사한 직원의 이름(first_name last_name)과 연봉(salary)과 근무하는 부서 이름
--- (department_name)은?
+-- 가장 늦게 입사한 직원의 이름(first_name last_name)과 연봉(salary)과 근무하는 부서 이름(department_name)은?
+SELECT e.first_name || ' ' || e.last_name as 이름,
+       salary as 연봉,
+       dept.department_name as 부서이름,
+       e.hire_date as 입사일
+FROM employees e JOIN departments dept on e.department_id = dept.department_id
+WHERE hire_date = (SELECT max(hire_date) FROM employees);
+
 
 -- 문제7.
 -- 평균연봉(salary)이 가장 높은 부서 직원들의 직원번호(employee_id), 이름(firt_name), 성
