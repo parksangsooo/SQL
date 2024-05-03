@@ -329,5 +329,4 @@ from t_test;
 -- 명시적으로 TRANSACTION 종료
 
 commit;
-select *
-from t_test;
+select * from t_test;
