@@ -163,3 +163,10 @@ WHERE ROWNUM = 1;
 
 -- 문제10.
 -- 평균 급여(salary)가 가장 높은 업무는?
+SELECT *
+FROM (SELECT j.job_title
+      FROM employees e
+               JOIN jobs j ON e.job_id = j.job_id
+      GROUP BY j.job_title
+      ORDER BY AVG(e.salary) DESC)
+WHERE ROWNUM = 1;
