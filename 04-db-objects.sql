@@ -174,9 +174,9 @@ SELECT *
 FROM user_sequences;
 
 -- book 테이블 PK 의 현재 값 확인
-SELECT max(BOOK_ID) FROM book;
+SELECT max(employee_id) FROM new_employees; -- 206
 
-CREATE SEQUENCE seq_book_id
+CREATE SEQUENCE seq_emp_id
 START WITH 3
 INCREMENT BY 1
 MAXVALUE 1000000

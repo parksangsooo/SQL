@@ -552,3 +552,6 @@ FROM employees
 START WITH manager_id IS NULL -- 트리 형태의 root가 되는 조건 명시
 CONNECT BY PRIOR employee_id = manager_id -- 상위 레벨과의 연결 조건 (가지치기 조건)
 ORDER BY level; --  트리의 깊이를 나타내는 Oracle 가상 컬럼
+
+
+
