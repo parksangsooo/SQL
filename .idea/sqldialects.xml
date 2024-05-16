@@ -5,15 +5,13 @@
     <file url="file://$PROJECT_DIR$/02-DML-JOIN-AGGREGATION.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/03-oracle-dcl-and-ddl.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/04-db-objects.sql" dialect="OracleSqlPlus" />
-    <file url="file://$PROJECT_DIR$/05-MySQL.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/05-MySQL-At-A-Glance.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/PRACTICE01.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/PRACTICE02.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/PRACTICE03.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/PRACTICE04.sql" dialect="OracleSqlPlus" />
     <file url="file://$PROJECT_DIR$/PRACTICE05.sql" dialect="OracleSqlPlus" />
+    <file url="file://$PROJECT_DIR$/book_test.sql" dialect="OracleSqlPlus" />
     <file url="file://$USER_HOME$/Downloads/hrdb.sql" dialect="MySQL" />
-  </component>
-  <component name="SqlResolveMappings">
-    <file url="file://$PROJECT_DIR$/05-MySQL.sql" scope="{&quot;node&quot;:{  &quot;@negative&quot;:&quot;1&quot;,  &quot;group&quot;:{   &quot;@kind&quot;:&quot;root&quot;,   &quot;node&quot;:{    &quot;@negative&quot;:&quot;1&quot;   }  } }}" />
   </component>
 </project>
